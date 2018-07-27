@@ -1,17 +1,6 @@
-<!-- http://localhost:8888/index.php/form/index -->
-
-<?php
-defined('BASEPATH') OR exit('No direct script access allowed');
-?><!DOCTYPE HTML>
-<html>
-<head>
-	<meta charset="utf-8">
-	<title>myForm</title>
-</head>
-<body>
 
 	<h2>表单创建实例</h2>
-	<form action="formSuccess" method="get">
+	<form action="formSuccess" method="post">
 		创建学生<br>
 		姓名：
 		<input type="text"  name="name" value="凉凉">
@@ -31,33 +20,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	   <input type="submit" name="submit" value="submit">
 	</form>
 
-	<h2>表单创建后查询实例</h2>
-	<?php echo $name;?><br>
-	<?php echo $age;?><br>
-	<?php echo $sex;?><br>
-	<?php echo $checkbox;?>
-
-	<h2>表单查询实例</h2>
-	<form action="formSearch" method="get">
-		查询学生<br>
-		姓名：
-		<input type="text"  name="fname" value="" placeholder="请在此输入...">
-		<br>
-		课程：
-		<input type="text"  name="fcourse" value="" placeholder="请在此输入...">
-		<br>
-		<input type="submit" name="fsubmit" value="submit">
-	</form>
 
 
-	<?php
-	//判断是否点击提交
-		// if( $_GET )
-		// {
-		// $array = $_GET['course'];
-		// alert($array);
-		// }
-	?>
+
 	<!-- <script type="text/javascript">
 	$(function(){
 		$.ajax({
@@ -68,4 +33,3 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		}
 	});
 	</script> -->
-</body>

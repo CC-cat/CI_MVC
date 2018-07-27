@@ -6,99 +6,82 @@ class Form extends CI_Controller {
 	public function __construct()
    {
 	   parent::__construct();
-	   // Your own constructor code
-   }
 
-	/*
-	一共就这么几步 往后端传数据
-	后端存
-	前端向后端请求数据
-	后端去数据库找
-	找到了给前端
-	*/
+   }
 
 	public function index()
 	{
-		$name = $age = $sex = $checkbox = '';
-		$data = array(
-		    'name' => $name,
-			'age' => $age,
-		    'sex' => $sex,
-			'checkbox' => $checkbox
-		);
-
-		$this->load->view('myForm',$data);
+		$this->load->view('header');
+		$this->load->view('myForm');
+		$this->load->view('formSearch');
+		$this->load->view('formSuccess');
+		$this->load->view('footer');
 	}
 
 	public function formSuccess()
 	{
+		// 获取用户填写的新增内容
 		$name = $this->input->get_post('name');
 		$age = $this->input->get_post('age');
 		$sex = $this->input->get_post('sex');
-		$checkbox = implode(",",$_GET['course']);
+		$subjectId = implode(",",$_POST['course']);
 
 		$data = array(
-		    'name' => $name,
+		    'userName' => $name,
 			'age' => $age,
 		    'sex' => $sex,
-			'checkbox' => $checkbox
+			'subjectId' => $subjectId
 		);
 
+
+		// 加载控制器方法
+		$this->increaseDB($data);
+		$this->index();
+	}
+
+	public function increaseDB($data)
+	{
+
+		/*新增数据到数据库*/
+
 		// 加载并初始化数据库类
-		// $this->load->database();
+		$this->load->database();
+
 		// 使用查询构造器插入数据
-		// $this->db->insert('mytable', $data);
-		//
+		$this->db->insert('content', $data);
+
 		// 生成这样的SQL代码:
-		//   INSERT INTO mytable (title, age, sex,checkbox) VALUES ('{$name}', '{$age}', '{$sex}', '{$checkbox}')
-		//
+		// INSERT INTO mytable (userName, age, sex,subjectId) VALUES ('{$name}', '{$age}', '{$sex}', '{$checkbox}')
 
-		// $this->db->close();
-
-		$this->load->view('myForm',$data);
+		// 关闭数据库类
+		$this->db->close();
 	}
 
-	public function formSearch(){
-		// 加载并初始化数据库类
-		$this->load->database();
 
-		// 使用查询构造器查询数据
-		// $query = $this->db->get('mytable');
-		//
-		// foreach ($query->result() as $row)
-		// {
-		// 	echo $row->name;
-		// 	echo $row->age;
-		// 	echo $row->sex;
-		//     echo $row->checkbox;
-		// }
+	public function catchDB()
+	{
+		/*从数据库拉去指定的表所有内容*/
+		$query = $this->db->get('content');
 
-		$fname = $this->input->get_post('fname');
-
-		$data = array(
-		    'fname' => $fname,
-		);
-
-		$this->load->view('formSuccess',$data);
-
-	}
-
-	public function showDatabase(){
-		$this->load->database();
-
-		$this->load->dbutil();
-
-
-		if ($this->dbutil->database_exists('CCcat'))
+		foreach ($query->result() as $row)
 		{
-		   echo 'Success!';
+			echo $row->userId;
+			echo $row->userName;
+			echo $row->age;
+			echo $row->sex;
+			echo $row->subjectId;
+		    echo '<br>';
 		}
 
-		$query = $this->db->get('chenchen');  // Produces: SELECT * FROM mytable
-		echo $query;
 
-		$query = $this->db->query('SELECT chenchen FROM mytable LIMIT 1');
-		$row = $query->row();
-		echo $row->chenchen;
 	}
+
+	public function formSearch()
+	{
+		// 获取用户填写的新增内容
+		$name = $this->input->get_post('name');
+		$age = $this->input->get_post('age');
+		$sex = $this->input->get_post('sex');
+	}
+
 }

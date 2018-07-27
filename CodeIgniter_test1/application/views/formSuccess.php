@@ -1,24 +1,20 @@
-<!-- http://localhost:8888/index.php/form/index -->
-
+<h2>表单创建后查询实例</h2>
+<div>
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-?><!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="utf-8">
-	<title>Success to myForm</title>
-
-	<style type="text/css">
 
 
-	</style>
-</head>
-<body>
 
-<div id="container">
-	成功啦<br>
-    <?php echo $fname;?><br>
+$query = $this->db->get('content');
+
+foreach ($query->result() as $row)
+{
+	echo $row->userId;
+	echo $row->userName;
+	echo $row->age;
+	echo $row->sex;
+	echo $row->subjectId;
+	echo '<br>';
+}
+?>
 </div>
-
-</body>
-</html>
