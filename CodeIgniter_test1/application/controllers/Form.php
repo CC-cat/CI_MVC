@@ -89,7 +89,7 @@ class Form extends CI_Controller
         // 获取用户填写的新增内容
         $name = $this->input->get('name');
 
-        $query = $this->db->get_where('content', array('userName' => $name));
+        $query = $this->db->query("SELECT * FROM content WHERE userName LIKE '%".$name."%'");
 
         $student_arr = $query->result();
 
@@ -119,8 +119,10 @@ class Form extends CI_Controller
     {
         // 获取用户填写的新增内容
         $subjectId = $this->input->get('subject');
+        // 保留前面3个关键字 ( 如：["1 )
+        $subjectId = substr($subjectId,0,3);
 
-        $query = $this->db->get_where('content', array('subjectId' => $subjectId));
+        $query = $this->db->query("SELECT * FROM content WHERE subjectId LIKE '%".$subjectId."%'");
 
         $student_arr = $query->result();
 

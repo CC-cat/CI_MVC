@@ -18,7 +18,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
 		  subject.push($(this).val());
 		 });
 
-		 subject = JSON.stringify(subject);
+		// 数组排序
+		subject = subject.sort(sortNumber);
+		subject = JSON.stringify(subject);
 
 		var url = '/index.php/form/formSuccess?name='+name+'&age='+age+'&sex='+sex+"&subject="+subject;
 		console.log(url);
@@ -37,6 +39,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
 			console.log("checkbox 为空");
 		}
 
+	};
+
+	var sortNumber = function (a,b){
+		return a - b
 	};
 
 	var btnSearch = function () {
@@ -71,11 +77,13 @@ defined('BASEPATH') or exit('No direct script access allowed');
 	var btnSearch_subject = function () {
 
 		var subject =[];
-		 $('input[name="subject"]:checked').each(function(){
+		 $('input[name="subject2"]:checked').each(function(){
 		  subject.push($(this).val());
 		 });
 
-		 subject = JSON.stringify(subject);
+		// 数组排序
+		subject = subject.sort(sortNumber);
+		subject = JSON.stringify(subject);
 
 		var url = '/index.php/form/searchDB_subject?subject='+subject;
 		console.log(url);
@@ -96,6 +104,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 						'<td>'+response[i].age+'</td>'+
 						'<td>'+response[i].sex+'</td>'+
 						'<td>'+response[i].subject_chinese+'</td>'+
+						'<td></td>'+
+						'<td></td>'+
 						'<tr>'
 					);
 				}
@@ -123,7 +133,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 						'<td>'+response[i].age+'</td>'+
 						'<td>'+response[i].sex+'</td>'+
 						'<td>'+response[i].subject_chinese+'</td>'+
-						'<td><button type="button" name="button" onclick="btnChange()">修改学生信息</button></td>'+
+						'<td><a href="javascript:;" onclick="btnEdit()">编辑</a></td>'+
+						'<td><a href="javascript:;" onclick="btnDelect()">删除</a></td>'+
 						'<tr>'
 					);
 				}
@@ -173,6 +184,14 @@ defined('BASEPATH') or exit('No direct script access allowed');
 	var btnChangeCancel = function (){
 		console.log('btnChangeCancel');
 	};
+
+	var btnEdit = function(){
+		console.log('btnEdit');
+	};
+
+	var btnDelect = function(){
+		console.log('btnDelect');
+	};
 	</script>
 </head>
 <body>
@@ -197,13 +216,13 @@ defined('BASEPATH') or exit('No direct script access allowed');
 	    <button type="submit" name="submit" onclick="btnSend()">提交</button>
 	<h2>表单查询实例</h2>
 		姓名：
-		<input type="text"  name="name" id="name2">
+		<input type="text"  name="name2" id="name2">
 		<button type="submit" name="submit" onclick="btnSearch()">按条件查询学生信息</button>
 		<br>
 		课程：
-		<input type="checkbox"  name="subject" value="1">语文
-		<input type="checkbox"  name="subject" value="2">数学
-		<input type="checkbox"  name="subject" value="3">英语
+		<input type="checkbox"  name="subject2" value="1">语文
+		<input type="checkbox"  name="subject2" value="2">数学
+		<input type="checkbox"  name="subject2" value="3">英语
 		<button type="submit" name="submit" onclick="btnSearch_subject()">按条件查询学生信息</button>
 		<br>
 		<br>
@@ -211,7 +230,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
 		<button type="button" name="button" onclick="btnChangeAll()">修改学生全部信息</button>
 		<button type="button" name="button" onclick="btnChangeSave()" class="btnChangeSave" style="display:none;">保存</button>
 		<button type="button" name="button" onclick="btnChangeCancel()" class="btnChangeCancel" style="display:none;">取消</button>
-
 		<br>
 		<br>
 		<div class="formShow">
@@ -223,6 +241,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 						<th>年龄</th>
 						<th>性别</th>
 						<th>课程</th>
+						<th colspan="2" width="122"></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -233,18 +252,3 @@ defined('BASEPATH') or exit('No direct script access allowed');
 		</div>
 </body>
 </html>
-
-
-
-
-
-	<!-- <script type="text/javascript">
-	$(function(){
-		$.ajax({
-			type : "GET",
-			url : "xxx",
-			success : function (data) {
-				console.log(data);   //data即为后台返回的数据
-		}
-	});
-	</script> -->
