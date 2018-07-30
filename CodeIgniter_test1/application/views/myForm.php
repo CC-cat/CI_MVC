@@ -25,6 +25,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 		var url = '/index.php/form/formSuccess?name='+name+'&age='+age+'&sex='+sex+"&subject="+subject;
 		console.log(url);
 
+
+
 		if (subject!=="[]") {
 			console.log("checkbox 不为空");
 			$.get(
@@ -35,6 +37,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 				},
 				"json"
 			);
+
+			window.location.reload();
 		}else {
 			console.log("checkbox 为空");
 		}
@@ -128,13 +132,13 @@ defined('BASEPATH') or exit('No direct script access allowed');
 				for (let i = 0; i < response.length; i++) {
 					$("#myTable tbody").append(
 						'<tr>'+
-						'<td>'+response[i].userId+'</td>'+
+						'<td class="userId">'+response[i].userId+'</td>'+
 						'<td>'+response[i].userName+'</td>'+
 						'<td>'+response[i].age+'</td>'+
 						'<td>'+response[i].sex+'</td>'+
 						'<td>'+response[i].subject_chinese+'</td>'+
 						'<td><a href="javascript:;" onclick="btnEdit()">编辑</a></td>'+
-						'<td><a href="javascript:;" onclick="btnDelect()">删除</a></td>'+
+						'<td><a href="javascript:;" onclick="btnDelect(this)">删除</a></td>'+
 						'<tr>'
 					);
 				}
@@ -189,8 +193,24 @@ defined('BASEPATH') or exit('No direct script access allowed');
 		console.log('btnEdit');
 	};
 
-	var btnDelect = function(){
-		console.log('btnDelect');
+	var btnDelect = function(index){
+
+		var userId = $(index).parent().siblings('.userId').html();
+
+		var url = '/index.php/form/deleteDB?userId='+userId;
+		console.log(url);
+
+		$.get(
+			url,
+			{},
+			function (response,status,xhr) {
+				console.log(response);
+				if (response == true) {
+					window.location.reload();
+				}
+			},
+			"json"
+		);
 	};
 	</script>
 </head>

@@ -120,7 +120,7 @@ class Form extends CI_Controller
         // 获取用户填写的新增内容
         $subjectId = $this->input->get('subject');
         // 保留前面3个关键字 ( 如：["1 )
-        $subjectId = substr($subjectId,0,3);
+        $subjectId = substr($subjectId, 0, 3);
 
         $query = $this->db->query("SELECT * FROM content WHERE subjectId LIKE '%".$subjectId."%'");
 
@@ -146,5 +146,20 @@ class Form extends CI_Controller
             $student->subject_chinese = $subject_chinese;
         }
         echo json_encode($student_arr);
+    }
+
+    public function deleteDB()
+    {
+        // 获取用户填写的新增内容
+        $userId = $this->input->get('userId');
+
+        $this->db->where('userId', $userId);
+        $query = $this->db->delete('content');
+
+        // $query = $this->db->query("DELETE FROM content WHERE userId=".$userId);
+
+        // $student_arr = $query->result();
+
+        echo json_encode($query);
     }
 }
