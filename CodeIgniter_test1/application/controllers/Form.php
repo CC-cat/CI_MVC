@@ -53,12 +53,10 @@ class Form extends CI_Controller
         // $this->db->close();
     }
 
-
     public function catchDB()
     {
         /*从数据库拉去指定的表所有内容*/
         $query = $this->db->get('content');
-        // $query_subject = $this->db->get('mySubject');
 
         $student_arr = $query->result();
 
@@ -86,6 +84,7 @@ class Form extends CI_Controller
 
     public function searchDB()
     {
+        /*查询用户名*/
         // 获取用户填写的新增内容
         $name = $this->input->get('name');
 
@@ -117,6 +116,7 @@ class Form extends CI_Controller
 
     public function searchDB_subject()
     {
+        /*查询科目*/
         // 获取用户填写的新增内容
         $subjectId = $this->input->get('subject');
         // 保留前面3个关键字 ( 如：["1 )
@@ -153,13 +153,41 @@ class Form extends CI_Controller
         // 获取用户填写的新增内容
         $userId = $this->input->get('userId');
 
+        // 删除MySQL数据表内容
         $this->db->where('userId', $userId);
         $query = $this->db->delete('content');
 
-        // $query = $this->db->query("DELETE FROM content WHERE userId=".$userId);
+        echo json_encode($query);
+    }
 
-        // $student_arr = $query->result();
+    public function changeDB()
+    {
+        // 获取用户填写的新增内容
+        $userId = $this->input->get('userId');
+        $name = $this->input->get('name');
+        $age = $this->input->get('age');
+        $sex = $this->input->get('sex');
+        $subjectId = $this->input->get('subject');
+
+        $data = array(
+            'userName' => $name,
+            'age' => $age,
+            'sex' => $sex,
+            'subjectId' => $subjectId
+        );
+
+
+        // 更新MySQL数据表内容
+        $this->db->where('userId', $userId);
+        $query = $this->db->update('content', $data);
+
 
         echo json_encode($query);
+
+    }
+
+    public function changeSaveDB ()
+    {
+
     }
 }
